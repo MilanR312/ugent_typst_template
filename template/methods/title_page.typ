@@ -22,10 +22,16 @@
   align(
     for author in authors [
       #set text(16pt)
-      #author.name
-      
-      #set text(12pt)
-      student number: #author.studenten_nummer
+      #if author.keys().contains("email") {
+        link("mailto:" + author.email, author.name)
+      } else {
+        author.name
+      }
+
+      #if author.keys().contains("student_number") {
+        set text(12pt)
+        [student number: #author.student_number]
+      }
     
     ],
     left + bottom

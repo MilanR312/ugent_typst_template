@@ -3,6 +3,7 @@
 #show: make-glossary
 #show: init_note_tables
 
+
 #show: ugent-template.with(
   title: [
     #text([A real thesis about colors], size: 25pt)
@@ -14,7 +15,8 @@
   authors: (
     (
       name: "John Doe",
-      studenten_nummer: "00"
+      student_number: "00",
+      email: "test"
     ),
   ),
   other_people: (
