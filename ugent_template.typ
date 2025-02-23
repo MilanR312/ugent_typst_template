@@ -43,7 +43,7 @@
   set page(number-align: right, margin: 2.5cm, paper: "a4", numbering: none)
   
   set par(justify: false, first-line-indent: 0em) //change to 1em for actual texts
-  show par: set block(spacing: 1em)
+  set par(spacing: 1em)
   
   // Configure lists.
   set enum(indent: 10pt, body-indent: 9pt)
@@ -98,14 +98,14 @@
   }
   
   //counter(page).update(1)
-
-  set page(footer: locate(
-    loc => if calc.even(loc.page()) {
+  set page(footer: context {
+    let loc = here()
+    if calc.even(loc.page()) {
       align(right, counter(page).display("I"));
     } else {
       align(left, counter(page).display("I"));
     }
-  ))
+  })
   set page(header: header(title, short_title))
   /*
   set page(header: 
@@ -201,7 +201,7 @@
     set text(size: default_fontsize)
     grid(
       columns: (50%, 50%),
-      if team_text != none [#team_text] else [], align(right, counter(page).display("1"))
+      if team_text != none [#team_text] else [], context { align(right, counter(page).display("1")) }
     ) 
   })
   //set page(footer: align(right, counter(page).display("1")));

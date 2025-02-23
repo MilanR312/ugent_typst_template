@@ -10,17 +10,17 @@
   <todo>
 ]
 
-#let outline-todos(title: [TODOS]) = {
-  locate(loc => {
-    let queried-todos = query(<todo>, loc)
+#let outline-todos(title: [TODOS]) = context {
+    // get all todos
+    let queried-todos = query(<todo>)
     if queried-todos.len() != 0 {
-      
       let title_text = text(title, stroke: red, fill: red)
       heading(numbering: none, outlined: false, title_text)
+      
       let headings = ()
-      let last-heading
+      let last-heading = none
       for todo in queried-todos {
-        let new-last-heading = query(selector(heading).before(todo.location()), loc).last()
+        let new-last-heading = query(selector(heading).before(todo.location())).last()
         if last-heading != new-last-heading {
           headings.push((heading: new-last-heading, todos: (todo,)))
            last-heading = new-last-heading
@@ -28,10 +28,16 @@
           headings.last().todos.push(todo)
         }
       }
+      
   
       for head in headings {
         link(head.heading.location())[
-          #numbering(head.heading.numbering, ..counter(heading).at(head.heading.location()))
+          // when no heading numbering is defined fall back to just showing it as "1.1.1.1"
+          #if head.heading.numbering != none {
+            numbering(head.heading.numbering, ..counter(heading).at(head.heading.location()))
+          } else {
+            numbering("1.1.1.1", ..counter(heading).at(head.heading.location()))
+          }
           #head.heading.body
         ]
         [ ]
@@ -45,5 +51,5 @@
         }).join())
       }
     } else []
-  })
+  }
 }
